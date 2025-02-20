@@ -17,16 +17,16 @@ FROM jaegertracing/all-in-one:1.55.0
 COPY --from=builder /app/jaeger-postgresql /usr/local/bin/jaeger-postgresql
 COPY --from=builder /app/jaeger-postgresql-cleaner /usr/local/bin/jaeger-postgresql-cleaner
 
-# Copy the plugin configuration template
-COPY plugin-config.yaml.template /etc/jaeger/plugin-config.yaml.template
+# Copy the plugin configuration template to /tmp (a writable location)
+COPY plugin-config.yaml.template /tmp/jaeger-config.yaml.template
 
-# Copy the entrypoint script and make it executable
-COPY --chmod=777 entrypoint.sh /entrypoint.sh
+# Copy the entrypoint script with executable permissions
+COPY --chmod=+x entrypoint.sh /entrypoint.sh
 
 # Set environment variables so Jaeger uses the grpc-plugin storage type
 ENV SPAN_STORAGE_TYPE="grpc-plugin" \
     GRPC_STORAGE_PLUGIN_BINARY="/usr/local/bin/jaeger-postgresql" \
-    GRPC_STORAGE_PLUGIN_CONFIGURATION_FILE="/etc/jaeger/plugin-config.yaml"
+    GRPC_STORAGE_PLUGIN_CONFIGURATION_FILE="/tmp/jaeger-config.yaml"
 
 # Expose Jaeger ports plus the plugin port (12345)
 EXPOSE 14268 16686 14250 12345
