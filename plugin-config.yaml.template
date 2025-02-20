@@ -1,0 +1,6 @@
+database:
+  url: "${DATABASE_URL}"
+  maxConns: 10
+cleaner:
+  enabled: true
+  maxSpanAge: "168h"

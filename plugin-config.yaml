@@ -1,0 +1,6 @@
+database:
+  url: "postgresql://postgres:postgres@0.0.0.0:5432/jaeger"
+  maxConns: 10
+cleaner:
+  enabled: true
+  maxSpanAge: "24h"
