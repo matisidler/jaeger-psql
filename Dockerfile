@@ -21,8 +21,7 @@ COPY --from=builder /app/jaeger-postgresql-cleaner /usr/local/bin/jaeger-postgre
 COPY plugin-config.yaml.template /etc/jaeger/plugin-config.yaml.template
 
 # Copy the entrypoint script and make it executable
-COPY --chmod=+x entrypoint.sh /entrypoint.sh
-# RUN chmod +x /entrypoint.sh
+COPY --chmod=777 entrypoint.sh /entrypoint.sh
 
 # Set environment variables so Jaeger uses the grpc-plugin storage type
 ENV SPAN_STORAGE_TYPE="grpc-plugin" \
